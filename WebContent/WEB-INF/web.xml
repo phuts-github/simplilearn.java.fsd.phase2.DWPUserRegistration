@@ -10,6 +10,6 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>com.simplilearn.registration.Register</servlet-name>
-    <url-pattern>/Register</url-pattern>
+    <url-pattern>/register</url-pattern>
   </servlet-mapping>  
 </web-app>

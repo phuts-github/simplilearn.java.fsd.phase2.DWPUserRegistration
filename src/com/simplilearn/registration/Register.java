@@ -2,17 +2,16 @@ package com.simplilearn.registration;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.mysql.cj.jdbc.Driver;
 
 /**
  * Servlet implementation class Register
@@ -53,6 +52,7 @@ public class Register extends HttpServlet {
         try {
             // 1. Register Connection
             Class.forName("com.mysql.cj.jdbc.Driver");
+//            Class.forName("com.mysql.jdbc");
             System.out.println("2");
 
             // 2. Get Connection
@@ -65,18 +65,25 @@ public class Register extends HttpServlet {
             System.out.println("3");
 
             // 3. Create Statement
-            PreparedStatement preparedStmnt = connection.prepareCall("{INSERT INTO EMPLOYEE_REGISTRATION VALUES(?,?,?,?)}");
+            PreparedStatement preparedStmnt = connection.prepareCall("INSERT INTO EMPLOYEE_REGISTRATION VALUES(?,?,?,?)");
             preparedStmnt.setString(1, name);
             preparedStmnt.setString(2, pass);
             preparedStmnt.setString(3, email);
             preparedStmnt.setString(4, country);
             
+            System.out.println("prepared statement - ");
+            System.out.println(preparedStmnt);
+            
             int i = preparedStmnt.executeUpdate();
-            if (i == 0 ) {
+            if (i == 1 ) {
             	System.out.println("Record Inserted");
+            	System.out.println(" i = " + i + ", name - " + name + ", Pass - " + pass + ", Email - " + email + ", Country - " + country);
+            } 
+            else {
+            	System.out.println(" i = " + i + ", error inserting record");
             }
             
-            System.out.println("name - " + name + " Pass - " + pass + ", Email - " + email + ", Country - " + country);
+            
         } catch (Exception e){
             System.out.println(e);
 
